@@ -19,6 +19,8 @@ const mongoose = require("mongoose");
 // Set the port for the server to listen on
 const PORT = process.env.PORT || 3500;
 
+console.log(process.env.NODE_ENV);
+
 // Connect to the MongoDB database
 connectDB();
 
