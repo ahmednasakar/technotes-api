@@ -1,12 +1,11 @@
 // Import necessary models and libraries
 const Note = require("../models/Note");
 const User = require("../models/User");
-const asyncHandler = require("express-async-handler");
 
 // @desc Get all notes
 // @route GET /notes
 // @access Private
-const getAllNotes = asyncHandler(async (req, res) => {
+const getAllNotes = async (req, res) => {
   // Retrieve all notes from the database
   const notes = await Note.find().lean();
 
@@ -24,12 +23,12 @@ const getAllNotes = asyncHandler(async (req, res) => {
 
   // Send the response with notes and associated usernames
   res.json(notesWithUser);
-});
+};
 
 // @desc Create new note
 // @route POST /notes
 // @access Private
-const createNewNote = asyncHandler(async (req, res) => {
+const createNewNote = async (req, res) => {
   // Extract data from the request body
   const { user, title, text } = req.body;
 
@@ -57,12 +56,12 @@ const createNewNote = asyncHandler(async (req, res) => {
     // If invalid note data received, return a 400 response
     return res.status(400).json({ message: "Invalid note data received" });
   }
-});
+};
 
 // @desc Update a note
 // @route PATCH /notes
 // @access Private
-const updateNote = asyncHandler(async (req, res) => {
+const updateNote = async (req, res) => {
   // Extract data from the request body
   const { id, user, title, text, completed } = req.body;
 
@@ -96,13 +95,13 @@ const updateNote = asyncHandler(async (req, res) => {
   const updatedNote = await note.save();
 
   // Send a response with the updated note's title
-  res.json(`"${updatedNote.title}" updated`);
-});
+  res.json(`'${updatedNote.title}' updated`);
+};
 
 // @desc Delete a note
 // @route DELETE /notes
 // @access Private
-const deleteNote = asyncHandler(async (req, res) => {
+const deleteNote = async (req, res) => {
   // Extract data from the request body
   const { id } = req.body;
 
@@ -119,10 +118,10 @@ const deleteNote = asyncHandler(async (req, res) => {
   await note.deleteOne();
 
   // Send a response with the deleted note's information
-  const reply = `Note "${note.title}" with ID ${note._id} deleted`;
+  const reply = `Note '${note.title}' with ID ${note._id} deleted`;
 
   res.json(reply);
-});
+};
 
 // Export the functions for use in other modules
 module.exports = {

@@ -1,13 +1,12 @@
 // Import necessary models and libraries
 const User = require("../models/User");
 const Note = require("../models/Note");
-const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 
 // @desc Get all users
 // @route GET /users
 // @access Private
-const getAllUsers = asyncHandler(async (req, res) => {
+const getAllUsers = async (req, res) => {
   // Retrieve all users from the database, excluding the password field
   const users = await User.find().select("-password").lean();
 
@@ -17,18 +16,18 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
   // Send the response with the list of users
   res.json(users);
-});
+};
 
 // @desc Create a new user
 // @route POST /users
 // @access Private
-const createNewUser = asyncHandler(async (req, res) => {
+const createNewUser = async (req, res) => {
   // Extract data from the request body
   const { username, password, roles } = req.body;
 
   // Confirm that all required fields are provided
   if (!username || !password)
-    return res.status(200).json({ message: "All fields are required" });
+    return res.status(400).json({ message: "All fields are required" });
 
   // Check for duplicate username
   const duplicate = await User.findOne({ username })
@@ -58,12 +57,12 @@ const createNewUser = asyncHandler(async (req, res) => {
     // If invalid user data received, return a 400 response
     res.status(400).json({ message: "Invalid user data received" });
   }
-});
+};
 
 // @desc Update a user
 // @route PATCH /users
 // @access Private
-const updateUser = asyncHandler(async (req, res) => {
+const updateUser = async (req, res) => {
   // Extract data from the request body
   const { id, username, roles, active, password } = req.body;
 
@@ -106,12 +105,12 @@ const updateUser = asyncHandler(async (req, res) => {
 
   // Send a response with the updated username
   res.json({ message: `${updatedUser.username} updated` });
-});
+};
 
 // @desc Delete a user
 // @route DELETE /users
 // @access Private
-const deleteUser = asyncHandler(async (req, res) => {
+const deleteUser = async (req, res) => {
   // Extract data from the request body
   const { id } = req.body;
 
@@ -137,7 +136,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   const reply = `Username ${user.username} with ID ${user._id} deleted`;
 
   res.json(reply);
-});
+};
 
 // Export the functions for use in other modules
 module.exports = {

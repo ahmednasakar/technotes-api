@@ -2,7 +2,7 @@
 require("dotenv").config();
 
 // Configure Express to handle asynchronous errors globally
-//require('express-async-errors')
+require("express-async-errors");
 
 // Import necessary modules
 const express = require("express");
@@ -62,7 +62,6 @@ app.use(errorHandler);
 
 // Listen for MongoDB connection events
 mongoose.connection.once("open", () => {
-  /* console.log("Connected to MongoDB"); */
   // Start the server once MongoDB connection is open
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
